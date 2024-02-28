@@ -131,17 +131,29 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Tasks = void 0;
 var Tasks = /*#__PURE__*/function () {
-  function Tasks(title, description, date, priority) {
+  function Tasks(taskInterface) {
     _classCallCheck(this, Tasks);
-    this.title = title;
-    this.description = description;
-    this.date = date;
-    this.priority = priority;
+    this.taskInterface = taskInterface;
+    this.title = taskInterface.title;
+    this.description = taskInterface.description;
+    this.date = taskInterface.date;
+    this.priority = taskInterface.priority;
   }
   _createClass(Tasks, [{
     key: "AddTasks",
-    value: function AddTasks() {
-      console.log("".concat(this.title, " ").concat(this.description, " ").concat(this.date, " ").concat(this.priority));
+    value: function AddTasks(task) {
+      localStorage.setItem(this.taskInterface.title, JSON.stringify(task));
+    }
+  }, {
+    key: "DisplayTasks",
+    value: function DisplayTasks(task) {
+      var _a;
+      // Créer un élément div pour la tâche
+      var taskDiv = document.createElement('div');
+      taskDiv.className = "task ".concat(task.priority);
+      taskDiv.innerHTML = "\n            <h3>".concat(task.title, " <span>\u2013 Priorit\xE9 ").concat(task.priority.charAt(0).toUpperCase() + task.priority.slice(1), "</span></h3>\n            <p>Date d'\xE9ch\xE9ance: ").concat(task.date, "</p>\n            <p>").concat(task.description, "</p>\n            <button type=\"button\">Supprimer</button>\n            <button class=\"edit-btn\">Modifier</button>\n        ");
+      // Ajouter la tâche au DOM
+      (_a = document.getElementById('tasks')) === null || _a === void 0 ? void 0 : _a.appendChild(taskDiv);
     }
   }]);
   return Tasks;
@@ -155,14 +167,29 @@ Object.defineProperty(exports, "__esModule", {
 });
 var tasks_1 = require("./tasks");
 var formAddTask = document.getElementById('taskForm');
+// recupère les élément au submit pour pouvoir les ajouter créer une nouvelle tache
 formAddTask === null || formAddTask === void 0 ? void 0 : formAddTask.addEventListener("submit", function (event) {
   var taskTitle = document.getElementById('taskTitle').value;
   var taskDescription = document.getElementById('taskDescription').value;
   var taskDueDate = document.getElementById('taskDueDate').value;
   var taskPriority = document.getElementById('taskPriority').value;
-  var tasks = new tasks_1.Tasks(taskTitle, taskDescription, taskDueDate, taskPriority);
-  tasks.AddTasks();
+  var taskObject = {
+    title: taskTitle,
+    description: taskDescription,
+    date: taskDueDate,
+    priority: taskPriority
+  };
+  var tasks = new tasks_1.Tasks(taskObject);
+  tasks.AddTasks(tasks);
 });
+for (var i = 0; i < localStorage.length; i++) {
+  var key = localStorage.key(i);
+  if (key) {
+    var task = new tasks_1.Tasks(JSON.parse(localStorage.getItem(key)));
+    task.DisplayTasks(task);
+  }
+}
+console.log(localStorage);
 },{"./tasks":"js/tasks.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
