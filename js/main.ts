@@ -20,7 +20,6 @@ formAddTask?.addEventListener("submit" , (event) => {
 })
 
 
-
 // fait une boucle en fonction des éléments stocké en local storage
 for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);

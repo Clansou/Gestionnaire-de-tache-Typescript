@@ -40,7 +40,33 @@ h1, h2 {
     cursor: pointer;
 }
 
+
 #taskForm button:hover {
+    background-color: #4cae4c;
+}
+
+#taskFormModify{
+    margin-bottom: 20px;
+}
+
+#taskFormModify input, #taskFormModify select, #taskFormModify textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+
+#taskFormModify button {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+
+#taskFormModify button:hover {
     background-color: #4cae4c;
 }
 
