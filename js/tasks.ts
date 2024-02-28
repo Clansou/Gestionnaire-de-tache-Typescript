@@ -17,18 +17,32 @@ export class Tasks implements TaskInterface {
         localStorage.setItem(this.taskInterface.title, JSON.stringify(task));
     }
     DisplayTasks(task:any):void{
-        // Créer un élément div pour la tâche
+        // Créer un élément div pour la tâche toutes ses infos html
         const taskDiv = document.createElement('div');
-        taskDiv.className = `task ${task.priority}`;
+        taskDiv.className = `task ${task.priority} ${task.title}`;
         taskDiv.innerHTML = `
             <h3>${task.title} <span>– Priorité ${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</span></h3>
             <p>Date d'échéance: ${task.date}</p>
             <p>${task.description}</p>
-            <button type="button">Supprimer</button>
+            <button class="delete-btn" type="button">Supprimer</button>
             <button class="edit-btn">Modifier</button>
         `;
-        // Ajouter la tâche au DOM
+        // Ajouter la tâche dans l'html
         document.getElementById('tasks')?.appendChild(taskDiv);
+
+        // Recupère le bouton delete pour pouvoir supprimer la tache 
+        const deleteBtn = taskDiv.querySelector('.delete-btn');
+        deleteBtn.addEventListener('click', () => {
+            this.DeleteTask(task.title,taskDiv);
+        });
     }
+
+    // Enlève la tache lié au titre du local storage
+    DeleteTask(title:string,taskDiv:HTMLDivElement){
+        localStorage.removeItem(title);
+        // permet d'enlever la tache de l'html sinon elle sera juste enlève du local storage et on devra raffraichir la page
+        taskDiv.remove();
+    }
+    
 
 }

@@ -18,9 +18,14 @@ formAddTask?.addEventListener("submit" , (event) => {
     let tasks = new Tasks(taskObject);
     tasks.AddTasks(tasks);
 })
+
+
+
+// fait une boucle en fonction des éléments stocké en local storage
 for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if (key) {
+        // Crée une tache pour chaque élément du local storage et appelle une fonction pour l'afficher
         const task = new Tasks(JSON.parse(localStorage.getItem(key) as string));
         task.DisplayTasks(task);
     }
