@@ -38,7 +38,6 @@ export class Tasks implements TaskInterface  {
     }
     // Modifie la tache lié au titre du local storage
     ModifyForm(task:any,taskDiv:HTMLDivElement){
-        // localStorage.setItem(title,data);
         CreateFormDiv(taskDiv,task)
 
         let formModifyTask = document.getElementById('taskFormModify');

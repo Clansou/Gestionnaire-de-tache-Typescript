@@ -12,7 +12,8 @@ formAddTask?.addEventListener("submit" , (event) => {
     let tasks = new Tasks(taskTitle,taskDescription,taskDueDate,taskPriority as "high" | "medium" | "low");
     tasks.UpdateTasks(tasks);
 })
-// Function to display tasks
+
+
 function displayTasks(filterFunction?: (taskData: any) => boolean): void {
     const ListTask = document.getElementById('tasks');
     while (ListTask?.firstChild) {
@@ -31,28 +32,18 @@ function displayTasks(filterFunction?: (taskData: any) => boolean): void {
     }
 }
 
-// Initial loading of tasks
 displayTasks();
 
-// Filtering tasks based on user input
 function FilterTask(): void {
     const filterPriority = (document.getElementById('filterPriority') as HTMLSelectElement).value;
     const filterDate = (document.getElementById('filterDate') as HTMLInputElement).value;
-
-    displayTasks((taskData) => {
-        return (filterPriority === "all" || taskData.priority === filterPriority) && (!filterDate || taskData.date === filterDate);
-    });
-}
-
-// Searching tasks based on user input
-function SearchTask(): void {
     const searchKeyword = (document.getElementById('searchInput') as HTMLInputElement).value.toLowerCase();
 
     displayTasks((taskData) => {
-        return taskData.title.toLowerCase().includes(searchKeyword) || taskData.description.toLowerCase().includes(searchKeyword);
+        return (filterPriority === "all" || taskData.priority === filterPriority) && (!filterDate || taskData.date === filterDate) && taskData.title.toLowerCase().includes(searchKeyword);
     });
 }
 
 // Event listeners
 document.getElementById('applyFilter')?.addEventListener("click", FilterTask);
-document.getElementById('searchButton')?.addEventListener('click', SearchTask);
+document.getElementById('searchButton')?.addEventListener('click', FilterTask);
