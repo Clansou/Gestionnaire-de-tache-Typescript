@@ -9,13 +9,13 @@ formAddTask?.addEventListener("submit" , (event) => {
     let taskDescription = (document.getElementById('taskDescription') as HTMLInputElement).value;
     let taskDueDate = (document.getElementById('taskDueDate') as HTMLInputElement).value;
     let taskPriority = (document.getElementById('taskPriority') as HTMLInputElement).value;
-    let taskObject: TaskInterface = {
+    let taskObject = {
         title: taskTitle,
         description: taskDescription,
         date: taskDueDate,
         priority: taskPriority as "high" | "medium" | "low"
     };
-    let tasks = new Tasks(taskObject);
+    let tasks = new Tasks(taskTitle,taskDescription,taskDueDate,taskPriority as "high" | "medium" | "low");
     tasks.UpdateTasks(tasks);
 })
 
@@ -25,8 +25,10 @@ for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if (key) {
         // Crée une tache pour chaque élément du local storage et appelle une fonction pour l'afficher
-        const task = new Tasks(JSON.parse(localStorage.getItem(key) as string));
-        task.DisplayTasks(task);
+        const taskData = JSON.parse(localStorage.getItem(key) as string);
+        const { title, description, date, priority } = taskData;
+        const tasks = new Tasks(title, description, date, priority as "high" | "medium" | "low");
+        tasks.DisplayTasks(tasks);
     }
 }
 

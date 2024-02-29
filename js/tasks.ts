@@ -2,21 +2,14 @@ import { TaskInterface } from "./taskInterface";
 import { CreateTaskDiv } from "./taskDiv";
 import {CreateFormDiv} from"./formDiv";
 
-export class Tasks implements TaskInterface {
-    title: string;
-    description: string;
-    date: string | Date;
-    priority: "high" | "medium" | "low";
+export class Tasks implements TaskInterface  {
 
-    constructor(private taskInterface:TaskInterface){
-        this.title = taskInterface.title;
-        this.description = taskInterface.description;
-        this.date = taskInterface.date;
-        this.priority = taskInterface.priority;
+
+    constructor(private title: string,private description: string,private date: string | Date,private priority: "high" | "medium" | "low"){
     }
 
     UpdateTasks(task:Object):void{
-        localStorage.setItem(this.taskInterface.title, JSON.stringify(task));
+        localStorage.setItem(this.title, JSON.stringify(task));
     }
     DisplayTasks(task:any):void{
         // Créer un élément div pour la tâche toutes ses infos html
@@ -30,6 +23,7 @@ export class Tasks implements TaskInterface {
         const deleteBtn = taskDiv.querySelector('.delete-btn');
         deleteBtn?.addEventListener('click', () => {
             this.DeleteTask();
+            taskDiv.remove();
         });
         const editBtn = taskDiv.querySelector('.edit-btn');
         editBtn?.addEventListener('click', () => {
@@ -57,16 +51,16 @@ export class Tasks implements TaskInterface {
             let taskDescription = (formModifyTask?.querySelector('#taskDescription') as HTMLInputElement).value;
             let taskDueDate = (formModifyTask?.querySelector('#taskDueDate') as HTMLInputElement).value;
             let taskPriority = (formModifyTask?.querySelector('#taskPriority') as HTMLSelectElement).value;
-            let taskObject: TaskInterface = {
+            let taskObject = {
                 title: taskTitle,
                 description: taskDescription,
                 date: taskDueDate,
                 priority: taskPriority as "high" | "medium" | "low"
             };
             console.log(taskTitle);
-            let tasks = new Tasks(taskObject);
+            let tasks = new Tasks(taskTitle,taskDescription,taskDueDate,taskPriority as "high" | "medium" | "low");
             tasks.UpdateTasks(taskObject);
-            CreateTaskDiv(taskDiv,tasks);
+            CreateTaskDiv(taskDiv,tasks); 
         })
     }
         
