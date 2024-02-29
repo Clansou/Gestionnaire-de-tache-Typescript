@@ -32,7 +32,7 @@ export class Tasks implements TaskInterface  {
     }
 
     // Enlève la tache lié au titre du local storage
-    DeleteTask(){
+    DeleteTask():void{
         localStorage.removeItem(this.title);
         // permet d'enlever la tache de l'html sinon elle sera juste enlève du local storage et on devra raffraichir la page
     }
