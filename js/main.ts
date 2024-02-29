@@ -12,50 +12,47 @@ formAddTask?.addEventListener("submit" , (event) => {
     let tasks = new Tasks(taskTitle,taskDescription,taskDueDate,taskPriority as "high" | "medium" | "low");
     tasks.UpdateTasks(tasks);
 })
-
-
-// fait une boucle en fonction des éléments stocké en local storage
-for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key) {
-        // Crée une tache pour chaque élément du local storage et appelle une fonction pour l'afficher
-        const taskData = JSON.parse(localStorage.getItem(key) as string);
-        const { title, description, date, priority } = taskData;
-        const tasks = new Tasks(title, description, date, priority as "high" | "medium" | "low");
-        tasks.DisplayTasks(tasks);
-    }
-}
-
-let buttonFilter = document.getElementById('applyFilter');
-buttonFilter?.addEventListener("click", (event) =>{
-    let tasks = FilterTask();
-})
-
-function FilterTask():void{
+// Function to display tasks
+function displayTasks(filterFunction?: (taskData: any) => boolean): void {
     const ListTask = document.getElementById('tasks');
     while (ListTask?.firstChild) {
         ListTask.removeChild(ListTask.firstChild);
     }
-    const filterPriority = (document.getElementById('filterPriority') as HTMLSelectElement).value;
-    const filterDate = (document.getElementById('filterDate') as HTMLInputElement).value;
 
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key) {
-            // Parse the JSON string from localStorage into an object
             const taskData = JSON.parse(localStorage.getItem(key) as string);
-            // Check if the task matches the filter criteria
-            if (filterPriority === "all" || taskData.priority === filterPriority) {
-                if (!filterDate || taskData.date === filterDate) {
-                    // Create a new Tasks instance using the extracted properties
-                    const tasks = new Tasks(taskData.title, taskData.description, taskData.date, taskData.priority as "high" | "medium" | "low");
-                    // Display the task
-                    tasks.DisplayTasks(tasks);
-                }
+            if (!filterFunction || filterFunction(taskData)) {
+                const tasks = new Tasks(taskData.title, taskData.description, taskData.date, taskData.priority as "high" | "medium" | "low");
+                tasks.DisplayTasks(tasks);
             }
         }
     }
 }
 
-console.log(localStorage);
+// Initial loading of tasks
+displayTasks();
 
+// Filtering tasks based on user input
+function FilterTask(): void {
+    const filterPriority = (document.getElementById('filterPriority') as HTMLSelectElement).value;
+    const filterDate = (document.getElementById('filterDate') as HTMLInputElement).value;
+
+    displayTasks((taskData) => {
+        return (filterPriority === "all" || taskData.priority === filterPriority) && (!filterDate || taskData.date === filterDate);
+    });
+}
+
+// Searching tasks based on user input
+function SearchTask(): void {
+    const searchKeyword = (document.getElementById('searchInput') as HTMLInputElement).value.toLowerCase();
+
+    displayTasks((taskData) => {
+        return taskData.title.toLowerCase().includes(searchKeyword) || taskData.description.toLowerCase().includes(searchKeyword);
+    });
+}
+
+// Event listeners
+document.getElementById('applyFilter')?.addEventListener("click", FilterTask);
+document.getElementById('searchButton')?.addEventListener('click', SearchTask);
