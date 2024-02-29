@@ -15,7 +15,7 @@ export class Tasks implements TaskInterface {
         this.priority = taskInterface.priority;
     }
 
-    AddTasks(task:Object):void{
+    UpdateTasks(task:Object):void{
         localStorage.setItem(this.taskInterface.title, JSON.stringify(task));
     }
     DisplayTasks(task:any):void{
@@ -43,11 +43,6 @@ export class Tasks implements TaskInterface {
         // permet d'enlever la tache de l'html sinon elle sera juste enlève du local storage et on devra raffraichir la page
         taskDiv.remove();
     }
-
-    ModifyTask(title:string ,task:Object):void{
-            localStorage.setItem(title, JSON.stringify(task));
-    }
-
     // Modifie la tache lié au titre du local storage
     ModifyForm(task:any,taskDiv:HTMLDivElement){
         // localStorage.setItem(title,data);
@@ -56,6 +51,7 @@ export class Tasks implements TaskInterface {
         let formModifyTask = document.getElementById('taskFormModify');
         let buttonModifyTask = document.getElementById('ModifyTask')
         // recupère les élément au submit pour pouvoir les ajouter créer une nouvelle tache
+        
         buttonModifyTask?.addEventListener("click" , (event) => {
             let taskTitle = (formModifyTask.querySelector('#taskTitle') as HTMLInputElement).value;
             let taskDescription = (formModifyTask.querySelector('#taskDescription') as HTMLInputElement).value;
@@ -69,7 +65,7 @@ export class Tasks implements TaskInterface {
             };
             console.log(taskTitle);
             let tasks = new Tasks(taskObject);
-            tasks.ModifyTask(task.title,taskObject);
+            tasks.UpdateTasks(taskObject);
             CreateTaskDiv(taskDiv,tasks)
         })
     }

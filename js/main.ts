@@ -16,7 +16,7 @@ formAddTask?.addEventListener("submit" , (event) => {
         priority: taskPriority
     };
     let tasks = new Tasks(taskObject);
-    tasks.AddTasks(tasks);
+    tasks.UpdateTasks(tasks);
 })
 
 
