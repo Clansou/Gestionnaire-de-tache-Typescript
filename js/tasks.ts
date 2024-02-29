@@ -28,20 +28,19 @@ export class Tasks implements TaskInterface {
 
         // Recupère le bouton delete pour pouvoir supprimer la tache 
         const deleteBtn = taskDiv.querySelector('.delete-btn');
-        deleteBtn.addEventListener('click', () => {
-            this.DeleteTask(task.title,taskDiv);
+        deleteBtn?.addEventListener('click', () => {
+            this.DeleteTask();
         });
         const editBtn = taskDiv.querySelector('.edit-btn');
-        editBtn.addEventListener('click', () => {
+        editBtn?.addEventListener('click', () => {
             this.ModifyForm(task,taskDiv);
         });
     }
 
     // Enlève la tache lié au titre du local storage
-    DeleteTask(title:string,taskDiv:HTMLDivElement){
-        localStorage.removeItem(title);
+    DeleteTask(){
+        localStorage.removeItem(this.title);
         // permet d'enlever la tache de l'html sinon elle sera juste enlève du local storage et on devra raffraichir la page
-        taskDiv.remove();
     }
     // Modifie la tache lié au titre du local storage
     ModifyForm(task:any,taskDiv:HTMLDivElement){
@@ -53,20 +52,21 @@ export class Tasks implements TaskInterface {
         // recupère les élément au submit pour pouvoir les ajouter créer une nouvelle tache
         
         buttonModifyTask?.addEventListener("click" , (event) => {
-            let taskTitle = (formModifyTask.querySelector('#taskTitle') as HTMLInputElement).value;
-            let taskDescription = (formModifyTask.querySelector('#taskDescription') as HTMLInputElement).value;
-            let taskDueDate = (formModifyTask.querySelector('#taskDueDate') as HTMLInputElement).value;
-            let taskPriority = (formModifyTask.querySelector('#taskPriority') as HTMLSelectElement).value;
+            task.DeleteTask();
+            let taskTitle = (formModifyTask?.querySelector('#taskTitle') as HTMLInputElement).value;
+            let taskDescription = (formModifyTask?.querySelector('#taskDescription') as HTMLInputElement).value;
+            let taskDueDate = (formModifyTask?.querySelector('#taskDueDate') as HTMLInputElement).value;
+            let taskPriority = (formModifyTask?.querySelector('#taskPriority') as HTMLSelectElement).value;
             let taskObject: TaskInterface = {
                 title: taskTitle,
                 description: taskDescription,
                 date: taskDueDate,
-                priority: taskPriority
+                priority: taskPriority as "high" | "medium" | "low"
             };
             console.log(taskTitle);
             let tasks = new Tasks(taskObject);
             tasks.UpdateTasks(taskObject);
-            CreateTaskDiv(taskDiv,tasks)
+            CreateTaskDiv(taskDiv,tasks);
         })
     }
         
