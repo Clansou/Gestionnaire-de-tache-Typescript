@@ -5,7 +5,7 @@ export function CreateTaskDiv(taskDiv:HTMLDivElement,task:any){
         <p>Date d'échéance: ${task.date}</p>
         <p>${task.description}</p>
         <p>Catégories: ${Array(task.category).join(', ').length>0 ? task.category.join(', ') : 'Aucune catégorie'}</p>
-        <button class="delete-btn" onclick="" type="button">Supprimer</button>
+        <button class="delete-btn" type="button">Supprimer</button>
         <button class="edit-btn">Modifier</button>
     `;
 }

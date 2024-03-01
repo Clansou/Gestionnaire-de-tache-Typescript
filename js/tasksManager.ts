@@ -62,7 +62,7 @@ export class TasksManager implements TaskInterface  {
             let tasks = new TasksManager(taskTitle, taskDescription, taskDueDate, taskPriority as "high" | "medium" | "low", taskCategory);
             tasks.UpdateTasks(taskObject);
             CreateTaskDiv(taskDiv,tasks); 
-                    // Recupère le bouton delete pour pouvoir supprimer la tache 
+            // Recupère le bouton delete pour pouvoir supprimer la tache 
             let deleteBtn = taskDiv.querySelector('.delete-btn');
             deleteBtn?.addEventListener('click', () => {
                 this.DeleteTask();
