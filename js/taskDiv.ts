@@ -4,7 +4,8 @@ export function CreateTaskDiv(taskDiv:HTMLDivElement,task:any){
         <h3>${task.title} <span>– Priorité ${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</span></h3>
         <p>Date d'échéance: ${task.date}</p>
         <p>${task.description}</p>
-        <button class="delete-btn" type="button">Supprimer</button>
+        <p>Catégories: ${Array(task.category).join(', ').length>0 ? task.category.join(', ') : 'Aucune catégorie'}</p>
+        <button class="delete-btn" onclick="" type="button">Supprimer</button>
         <button class="edit-btn">Modifier</button>
     `;
 }

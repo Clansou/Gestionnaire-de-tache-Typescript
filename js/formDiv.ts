@@ -8,6 +8,7 @@ export function CreateFormDiv(taskDiv:HTMLDivElement,task:any){
         <option value="medium" ${task.priority === 'medium' ? 'selected' : ''}>Moyenne</option>
         <option value="high" ${task.priority === 'high' ? 'selected' : ''}>Haute</option>
     </select>
+    <input type="text" id="taskCategory" value="${task.category}" placeholder="Categorie1,Categorie2 ...">
     <button id="ModifyTask">Modifier ma tâche</button>
-    </div>`;
+`
 }
